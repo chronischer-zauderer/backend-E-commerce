@@ -1,4 +1,5 @@
 HELP.md
+.env
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -221,5 +222,5 @@ $RECYCLE.BIN/
 # Ignore application configuration
 application.yml
 application.properties
-.env
+
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,intellij,maven
