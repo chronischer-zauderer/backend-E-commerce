@@ -27,10 +27,11 @@ E-commerce-Backend/
 │   ├── main/
 │   │   ├── java/com/example/ecommerce/
 │   │   │   ├── controllers/
-│   │   │   ├── services/
-│   │   │   ├── repositories/
-│   │   │   ├── models/
-│   │   │   ├── security/
+│   │   │   ├── config/
+│   │   │   ├── domain/
+│   │   │   ├── security
+│   │   │   │   ├── config/
+│   │   │   │   ├── jwt/
 │   ├── resources/
 │       ├── application.yml
 │── Dockerfile
