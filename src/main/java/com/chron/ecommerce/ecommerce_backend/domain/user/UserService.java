@@ -1,49 +1,19 @@
 package com.chron.ecommerce.ecommerce_backend.domain.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public Optional<User> getUserById(long id) {
-        return userRepository.findById(id);
-    }
-
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public void deleteUser(long id) {
-        userRepository.deleteById(id);
-    }
-
-    public User updateUser(Long id, User updatedUser) {
-        return userRepository.findById(id).map(user -> {
-            user.setUsername(updatedUser.getUsername());
-            user.setFirstName(updatedUser.getFirstName());
-            user.setLastName(updatedUser.getLastName());
-            user.setEmail(updatedUser.getEmail());
-            user.setPassword(updatedUser.getPassword());
-            user.setRole(updatedUser.getRole());
-            return userRepository.save(user);
-        }).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
     public User getByUsername(String username) {
         return userRepository.findByUsername(username)
@@ -51,5 +21,17 @@ public class UserService {
                         new UsernameNotFoundException("Usuario no encontrado con username: " + username)
                 );
     }
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 
+    public User createUser(User user) {
+        if (existsByUsername(user.getUsername())) {
+            throw new RuntimeException("El nombre de usuario ya está en uso");
+        }
+        if (existsByEmail(user.getEmail())) {
+            throw new RuntimeException("El email ya está registrado");
+        }
+        return userRepository.save(user);
+    }
 }

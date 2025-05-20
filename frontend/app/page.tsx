@@ -1,179 +1,172 @@
-import Link from "next/link"
-import { ShoppingCart } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { ProductCard } from "@/components/product-card"
+import { Button } from "@/components/ui/button"
+import { getFeaturedProducts } from "@/lib/data"
+import { ArrowRight, ShoppingBag } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
 
-export default function Home() {
+export default async function Home() {
+  const featuredProducts = await getFeaturedProducts()
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="border-b">
-        <div className="container flex items-center justify-between h-16 px-4 mx-auto sm:px-6">
-          <Link href="/" className="text-xl font-bold">
-            ShopNow
-          </Link>
-          <div className="hidden w-full max-w-sm mx-auto md:block">
-            <form className="relative">
-              <Input type="search" placeholder="Search products..." className="w-full" />
-            </form>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/cart">
-              <Button variant="outline" size="icon" className="relative">
-                <ShoppingCart className="w-5 h-5" />
-                <span className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full -mt-1 -mr-1">
-                  3
-                </span>
-                <span className="sr-only">Shopping Cart</span>
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="outline" size="sm">
-                Login
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1">
-        <section className="py-12 bg-muted">
-          <div className="container px-4 mx-auto sm:px-6">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Welcome to ShopNow</h1>
-              <p className="max-w-md mx-auto mt-4 text-muted-foreground">
-                Discover our wide range of products at competitive prices
-              </p>
-            </div>
-          </div>
-        </section>
-        <section className="py-12">
-          <div className="container px-4 mx-auto sm:px-6">
-            <h2 className="mb-8 text-2xl font-bold">Featured Categories</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {categories.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/category/${category.id}`}
-                  className="flex flex-col items-center p-4 transition-colors border rounded-lg hover:border-primary"
-                >
-                  <div className="w-16 h-16 mb-2 bg-muted rounded-full flex items-center justify-center">
-                    {category.icon}
-                  </div>
-                  <span className="text-sm font-medium text-center">{category.name}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-        <section className="py-12">
-          <div className="container px-4 mx-auto sm:px-6">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold">Popular Products</h2>
-              <Link href="/products" className="text-sm font-medium text-primary">
-                View all
+    <div className="flex flex-col gap-12 pb-8">
+      {/* Hero Section */}
+      <section className="relative h-[500px] w-full overflow-hidden">
+        <Image
+          src="/placeholder.svg?height=500&width=1200"
+          alt="Banner promocional"
+          width={1200}
+          height={500}
+          className="absolute inset-0 h-full w-full object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white px-4">
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">Descubre Nuestra Colección</h1>
+          <p className="mb-6 max-w-lg text-lg">Productos de alta calidad con los mejores precios del mercado</p>
+          <div className="flex gap-4">
+            <Button asChild size="lg">
+              <Link href="/productos">
+                Ver Productos <ShoppingBag className="ml-2 h-5 w-5" />
               </Link>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-      <footer className="py-6 border-t">
-        <div className="container px-4 mx-auto sm:px-6">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div>
-              <h3 className="mb-4 text-lg font-medium">ShopNow</h3>
-              <p className="text-sm text-muted-foreground">Your one-stop shop for all your needs.</p>
-            </div>
-            <div>
-              <h3 className="mb-4 text-lg font-medium">Quick Links</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/about" className="text-muted-foreground hover:text-foreground">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-muted-foreground hover:text-foreground">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/faq" className="text-muted-foreground hover:text-foreground">
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-lg font-medium">Contact</h3>
-              <address className="not-italic text-sm text-muted-foreground">
-                <p>123 Shop Street</p>
-                <p>Shopville, SH 12345</p>
-                <p className="mt-2">Email: info@shopnow.com</p>
-                <p>Phone: (123) 456-7890</p>
-              </address>
-            </div>
-          </div>
-          <div className="pt-8 mt-8 border-t">
-            <p className="text-sm text-center text-muted-foreground">
-              © {new Date().getFullYear()} ShopNow. All rights reserved.
-            </p>
+            </Button>
+            <Button variant="outline" size="lg" className="bg-white/10">
+              <Link href="/categorias">Explorar Categorías</Link>
+            </Button>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Featured Products */}
+      <section className="container">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-3xl font-bold">Productos Destacados</h2>
+          <Button variant="ghost" asChild>
+            <Link href="/productos" className="flex items-center">
+              Ver todos <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="container">
+        <h2 className="mb-6 text-3xl font-bold">Categorías Populares</h2>
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <Link href="/categorias/electronica" className="group relative h-40 overflow-hidden rounded-lg">
+            <Image
+              src="/placeholder.svg?height=160&width=300"
+              alt="Electrónica"
+              width={300}
+              height={160}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h3 className="text-xl font-bold text-white">Electrónica</h3>
+            </div>
+          </Link>
+          <Link href="/categorias/ropa" className="group relative h-40 overflow-hidden rounded-lg">
+            <Image
+              src="/placeholder.svg?height=160&width=300"
+              alt="Ropa"
+              width={300}
+              height={160}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h3 className="text-xl font-bold text-white">Ropa</h3>
+            </div>
+          </Link>
+          <Link href="/categorias/hogar" className="group relative h-40 overflow-hidden rounded-lg">
+            <Image
+              src="/placeholder.svg?height=160&width=300"
+              alt="Hogar"
+              width={300}
+              height={160}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h3 className="text-xl font-bold text-white">Hogar</h3>
+            </div>
+          </Link>
+          <Link href="/categorias/deportes" className="group relative h-40 overflow-hidden rounded-lg">
+            <Image
+              src="/placeholder.svg?height=160&width=300"
+              alt="Deportes"
+              width={300}
+              height={160}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h3 className="text-xl font-bold text-white">Deportes</h3>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="bg-muted py-12">
+        <div className="container">
+          <h2 className="mb-8 text-center text-3xl font-bold">Lo que dicen nuestros clientes</h2>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="rounded-lg bg-card p-6 shadow-sm">
+                <div className="mb-4 flex items-center gap-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star key={star} filled={star <= 5} />
+                  ))}
+                </div>
+                <p className="mb-4 text-muted-foreground">
+                  "Excelente servicio y productos de alta calidad. Definitivamente volveré a comprar."
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 overflow-hidden rounded-full bg-muted">
+                    <Image
+                      src="/placeholder.svg?height=40&width=40"
+                      alt="Avatar"
+                      width={40}
+                      height={40}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-medium">Cliente {i}</p>
+                    <p className="text-sm text-muted-foreground">Cliente frecuente</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
 
-// Sample data
-const categories = [
-  { id: 1, name: "Electronics", icon: "📱" },
-  { id: 2, name: "Clothing", icon: "👕" },
-  { id: 3, name: "Home", icon: "🏠" },
-  { id: 4, name: "Sports", icon: "⚽" },
-  { id: 5, name: "Beauty", icon: "💄" },
-]
-
-const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 99.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Electronics",
-    rating: 4.5,
-    reviews: 120,
-  },
-  {
-    id: 2,
-    name: "Cotton T-Shirt",
-    price: 24.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Clothing",
-    rating: 4.2,
-    reviews: 85,
-  },
-  {
-    id: 3,
-    name: "Smart Watch",
-    price: 199.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Electronics",
-    rating: 4.8,
-    reviews: 230,
-  },
-  {
-    id: 4,
-    name: "Running Shoes",
-    price: 89.99,
-    image: "/placeholder.svg?height=300&width=300",
-    category: "Sports",
-    rating: 4.6,
-    reviews: 175,
-  },
-]
+function Star({ filled }: { filled: boolean }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={filled ? "text-yellow-500" : "text-gray-300"}
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  )
+}

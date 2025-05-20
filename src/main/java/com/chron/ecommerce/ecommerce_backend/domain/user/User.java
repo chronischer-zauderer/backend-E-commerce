@@ -6,6 +6,7 @@ import com.chron.ecommerce.ecommerce_backend.domain.paymentMethod.PaymentMethod;
 import com.chron.ecommerce.ecommerce_backend.domain.review.Review;
 import com.chron.ecommerce.ecommerce_backend.domain.role.Role;
 import com.chron.ecommerce.ecommerce_backend.domain.shoppingCart.ShoppingCart;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", nullable = false, length = 100)
+    @Column(name = "username", nullable = false, length = 100,unique = true)
     private String username;
 
     @Column(name = "first_name", nullable = false, length = 100)
@@ -37,7 +38,7 @@ public class User {
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100,unique = true)
     private String email;
 
     @Column(name = "password", nullable = false, length = 100)
@@ -45,6 +46,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
+    @JsonBackReference
     private Role role;
 
     @Column(name = "created_at", nullable = false)

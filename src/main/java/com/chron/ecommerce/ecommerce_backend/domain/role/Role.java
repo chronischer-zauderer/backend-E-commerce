@@ -1,5 +1,6 @@
 package com.chron.ecommerce.ecommerce_backend.domain.role;
 import com.chron.ecommerce.ecommerce_backend.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +26,6 @@ public class Role {
     private String roleName;
 
     @OneToMany(mappedBy = "role")
+    @JsonManagedReference
     private List<User> users;
 }

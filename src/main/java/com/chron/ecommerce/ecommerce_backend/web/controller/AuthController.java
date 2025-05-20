@@ -37,7 +37,6 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String token = jwtUtils.generateToken(userDetails);
 
@@ -69,10 +68,8 @@ public class AuthController {
         } else {
             username = principal.toString();
         }
-
         com.chron.ecommerce.ecommerce_backend.domain.user.User user = refreshTokenService
                     .getUserByUsername(username);
-
         refreshTokenService.deleteByUserId(user.getUserId());
 
         return ResponseEntity.ok("Refresh token eliminado correctamente.");

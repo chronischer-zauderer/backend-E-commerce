@@ -8,6 +8,7 @@ import com.chron.ecommerce.ecommerce_backend.security.jwt.JwtAuthorizationFilter
 import com.chron.ecommerce.ecommerce_backend.security.jwt.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,7 +44,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/login", "/api/users/register","api/auth/refresh").permitAll()
                         .requestMatchers("/api/admin/**")
                         .hasRole("ADMIN")
@@ -51,6 +54,7 @@ public class SecurityConfig {
                 )
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(cors ->{})
                 .build();
     }
 
