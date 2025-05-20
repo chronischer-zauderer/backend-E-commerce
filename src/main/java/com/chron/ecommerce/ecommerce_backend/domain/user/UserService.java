@@ -1,8 +1,13 @@
 package com.chron.ecommerce.ecommerce_backend.domain.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +16,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -39,4 +45,11 @@ public class UserService {
             return userRepository.save(user);
         }).orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Usuario no encontrado con username: " + username)
+                );
+    }
+
 }

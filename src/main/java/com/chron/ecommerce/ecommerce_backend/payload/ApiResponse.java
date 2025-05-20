@@ -1,18 +1,18 @@
-package com.chron.ecommerce.ecommerce_backend.payload;
+    package com.chron.ecommerce.ecommerce_backend.payload;
 
-import lombok.Getter;
-import lombok.Setter;
+    import lombok.Getter;
+    import lombok.Setter;
 
 
-@Setter
-@Getter
-public class ApiResponse {
-    private boolean success;
-    private String message;
+    @Setter
+    @Getter
+    public class ApiResponse {
+        private boolean success;
+        private String message;
 
-    public ApiResponse(boolean success, String message) {
-        this.success = success;
-        this.message = message;
+        public ApiResponse(boolean success, String message) {
+            this.success = success;
+            this.message = message;
+        }
+
     }
-
-}

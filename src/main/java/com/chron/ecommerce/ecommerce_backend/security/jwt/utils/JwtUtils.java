@@ -17,14 +17,32 @@ public class JwtUtils {
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24; // 24 horas
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String username) {
+    public String generateToken(UserDetails userDetails) {
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(a -> a.getAuthority())  // ejemplo: "ROLE_ADMIN"
+                .orElse("ROLE_USER");
+
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userDetails.getUsername())
+                .claim("role", role) // 👈 se incluye el rol
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
                 .compact();
     }
+    public String generateTokenFromUser(com.chron.ecommerce.ecommerce_backend.domain.user.User user) {
+        String role = user.getRole().getRoleName(); // O el getter correcto del rol
+
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("role", role)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(SECRET_KEY)
+                .compact();
+    }
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
