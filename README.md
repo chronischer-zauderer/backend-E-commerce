@@ -33,7 +33,7 @@ E-commerce-Backend/
 │   │   │   │   ├── config/
 │   │   │   │   ├── jwt/
 │   ├── resources/
-│       ├── application.yml
+│       ├── application.properties
 │── Dockerfile
 │── README.md
 │── pom.xml
